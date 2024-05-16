@@ -33,7 +33,7 @@ Paulo N Bernardino (paulo.nbernardino@gmail.com)
 
 Defina a sua área de trabalho do R para o local onde este arquivo está salvo. 
 
-![](figs/setwd_rstudiotip.png){width = 200%}
+![](figs/setwd_rstudiotip.png)
 
 Use o código abaixo para instalar e carregar os pacotes necessários.
 
@@ -158,7 +158,7 @@ Portanto, para avaliar o estado da restauração, podemos usar esses valores de 
 
 Vamos então checar como está o NDVI no último ano da nossa série temporal, 2022.
 
-```{r, echo=TRUE, message=FALSE}
+```{r, echo=TRUE, message=FALSE, out.width = 1450, out.height = 700}
 ## Calculate the mean NDVI for 2022
 ndvi_mean_2022 <- mean(ndvi_prepro[[265:276]], na.rm = T)
 
