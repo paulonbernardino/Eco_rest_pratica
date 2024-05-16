@@ -6,12 +6,12 @@ output:
   knitrBootstrap::bootstrap_document:
     theme: "simplex"
     highlight: Tomorrow Night Bright
-    menu: FALSE
+    menu: TRUE
     theme.chooser: TRUE
     highlight.chooser: TRUE
 ---
 
-```{r setup, include=FALSE} 
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, R.options=list(width=10000), 
                       fig.align='center', out.width='100%', fig.asp=1.0) 
 ```
@@ -21,17 +21,16 @@ options(width = 10000)
 ```
 
 # Sensoriamento remoto para restauração
-  
-Paulo N Bernardino (paulo.nbernardino@gmail.com)
+
+Paulo N Bernardino ([paulo.nbernardino\@gmail.com](mailto:paulo.nbernardino@gmail.com){.email})
 
 [Division Forest, Nature and Landscape, KU Leuven](https://ees.kuleuven.be/fnl/staff/index.html?intranet=u0115271)
 
 [Laboratório de Ecologia Funcional das Plantas, UNICAMP](https://www.ib.unicamp.br/lab_ecologia_vegetal/front_page)
 
-
 ## Parte 1: Processando imagens de Landsat
 
-Defina a sua área de trabalho do R para o local onde este arquivo está salvo. 
+Defina a sua área de trabalho do R para o local onde este arquivo está salvo.
 
 ![](figs/setwd_rstudiotip.png)
 
@@ -49,7 +48,6 @@ pkgTest <- function(x)
 neededPackages <- c("raster", "rgdal", "gimms")
 for (package in neededPackages){pkgTest(package)}
 ```
-
 
 O primeiro passo é carregar as imagens de satélite do Landsat no R. Para a primeira parte do exercício, precisaremos apenas de duas imagens: a imagem contendo o NDVI para Dezembro de 2000 (LE07_221076_20001210.tif), e sua respectiva máscara (LE07_mask_20001210.tif).
 
@@ -72,10 +70,9 @@ plot(ndvi)
 plot(mask)
 ```
 
-
 A máscara fornecida pelo próprio produto do Landsat separa a imagem em algumas classes: corpos d'água, estradas, vegetação e nuvens. Para esse exercício, estamos interessados em analisar a vegetação, portanto, todas as outras classes devem ser removidas da nossa imagem. Repare que as cores estão diferentes nos mapas da máscara, porém os valores relacionadas a cada classe são os mesmos.
 
-![](figs/Figure_mask.png){ }
+![](figs/Figure_mask.png)
 
 Neste exemplo, usaremos a máscara para remover apenas as nuvens. No exercício abaixo, o processo deve ser repetido também para as outras classes indesejadas, deixando apenas a classe de "vegetação" nas imagens que serão analizadas. Para aplicar a máscara, use o código abaixo:
 
@@ -85,7 +82,6 @@ mask[mask==4] <- NA # "clouds" class
 ndvi <- mask(ndvi, mask)
 plot(ndvi)
 ```
-
 
 Em seguida, vamos restringir a imagem apenas para a nossa área de interesse, restringindo a quantidade de dados que serão analisados e diminuindo o tempo de processamento. Por último, dividimos os valores no raster por 10000, que é o fator de escala para esse produto de NDVI. Os dados são armazenados como números inteiros (isto é, os valores de NDVI são multiplicados por 10000 antes de serem armazenados) porque dessa maneira ocupam menos espaço no computador. Porém, como sabemos, os valores de NDVI devem variar de 0 a 1.
 
@@ -106,9 +102,7 @@ ndvi <- ndvi/10000
 plot(ndvi)
 ```
 
-
 Este é um exemplo de como processar as imagens de Landsat. O mesmo processo deve ser repetido em todas as imagens (uma por mês) que serão usadas em sua análise. Para agilizar, as imagens já foram pré-processadas e estão prontas para análise. As imagens processadas, para o período de Janeiro de 2000 a Dezembro de 2022, estão salvas no arquivo "NDVI_ASB_2000-2022.tif".
-
 
 ## Parte 2: Analisando a trajetória da restauração
 
@@ -143,22 +137,21 @@ data.frame(id = 1:5, classe = sites$tratamento)
 
 ```
 
-
-Primeiramente, vamos avaliar as séries temporais das área de interesse. 
+Primeiramente, vamos avaliar as séries temporais das área de interesse.
 
 (1) Para a área sendo restaurada, olharemos para a série temporal completa, de Jan 2000 a Dez 2022. Dessa maneira, podemos observar o momento em que a intervenção se iniciou: os altos valores de NDVI, representando uma "floresta", de repente caem para valores mais baixos, quando há o corte e a queima. Em seguida, observamos um lento aumento no NDVI, conforme a vegetação nativa se regenera.
 
 (2) Como não temos dados sobre a área que está sendo restaurada antes de ela ser degradada, o que poderia ser usado como o "estado de referência" para a restauração, utilizamos dados de uma área próxima com vegetação nativa. Não importa muito saber como essa área era no passado, portanto olhamos para a série temporal apenas entre 2016 e 2022.
 
-(3) Por último, para saber como é o NDVI de uma área ainda degradada, completamente coberta por uma espécie de árvore exótica, olhamos para a série temporal dessa área, também no período mais recente. Repare que, na média, o NDVI dessa área é bem mais alto (0.35) do que o NDVI da área nativa (0.25). Isso se dá pois, geralmente, áreas florestais apresentam um NDVI mais alto do que áreas de campo e savana. 
+(3) Por último, para saber como é o NDVI de uma área ainda degradada, completamente coberta por uma espécie de árvore exótica, olhamos para a série temporal dessa área, também no período mais recente. Repare que, na média, o NDVI dessa área é bem mais alto (0.35) do que o NDVI da área nativa (0.25). Isso se dá pois, geralmente, áreas florestais apresentam um NDVI mais alto do que áreas de campo e savana.
 
-![](figs/ts.png){ }
+![](figs/ts.png)
 
 Portanto, para avaliar o estado da restauração, podemos usar esses valores de referência. Por exemplo, quando a área que está sendo restaurada chegar à valores próximos de 0.25, saberemos que ela está mais próxima do estado conservado (nosso sistema de referência).
 
 Vamos então checar como está o NDVI no último ano da nossa série temporal, 2022.
 
-```{r, echo=TRUE, message=FALSE, out.width = 1450, out.height = 700}
+```{r echo=TRUE, message=FALSE, out.height=, out.width=1450}
 ## Calculate the mean NDVI for 2022
 ndvi_mean_2022 <- mean(ndvi_prepro[[265:276]], na.rm = T)
 
@@ -186,10 +179,10 @@ boxplot(df$ndvi ~ df$class, xlab =" ", ylab = "NDVI", boxwex = 0.6, frame = F, c
 
 O objetivo desse exercício é avaliar como outras áreas que estão sendo restauradas estão evoluindo. Isto é, qual delas está mais próxima do estado de referência. Você pode utilizar os dados que já estão carregados no seu ambiente de trabalho no R:
 
-- "ndvi_mean_2022", que contém os valores de NDVI médio para o ano de 2022
-- "sites", que contém as 5 parcelas de estudo
-- "reserve", que contém os limites da reserva
-- "mask", que contém a máscara que será utilizada para excluir áreas sem vegetação
+-   "ndvi_mean_2022", que contém os valores de NDVI médio para o ano de 2022
+-   "sites", que contém as 5 parcelas de estudo
+-   "reserve", que contém os limites da reserva
+-   "mask", que contém a máscara que será utilizada para excluir áreas sem vegetação
 
 As tarefas que devem ser realizadas são as seguintes:
 
@@ -199,9 +192,7 @@ As tarefas que devem ser realizadas são as seguintes:
 
 (3) Visualize o NDVI de cada parcela e determine qual delas está mais próxima do sistema de referência.
 
-(4) Calcule o NDVI médio do sistema de referência. Use este valor para saber, em toda a reserva, quais áreas estão mais próximas ou mais distantes desse valor 
-
-
+(4) Calcule o NDVI médio do sistema de referência. Use este valor para saber, em toda a reserva, quais áreas estão mais próximas ou mais distantes desse valor
 
 Dica: ndvi - x
 
