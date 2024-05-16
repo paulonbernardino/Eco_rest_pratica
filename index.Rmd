@@ -1,6 +1,6 @@
 ---
-title: "Sensoriamento remoto para restauração"
-author: "Paulo N Bernardino"
+title: " "
+author: " "
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
 knitrBootstrap::bootstrap_document:
