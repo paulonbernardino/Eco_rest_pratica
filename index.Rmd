@@ -72,7 +72,7 @@ A máscara fornecida pelo próprio produto do Landsat separa a imagem em algumas
 
 ![](figs/Figure_mask.png)
 
-Neste exemplo, usaremos a máscara para remover apenas as nuvens. No exercício abaixo, o processo deve ser repetido também para as outras classes indesejadas, deixando apenas a classe de "vegetação" nas imagens que serão analizadas. Para aplicar a máscara, use o código abaixo:
+Neste exemplo, usaremos a máscara para remover apenas as nuvens. Para aplicar a máscara, use o código abaixo:
 
 ```{r, echo=TRUE, message=FALSE}
 ## Transform the desired values in NAs, then use the mask function
@@ -140,7 +140,7 @@ Primeiramente, vamos avaliar as séries temporais das área de interesse.
 
 (1) Para a área sendo restaurada, olharemos para a série temporal completa, de Jan 2000 a Dez 2022. Dessa maneira, podemos observar o momento em que a intervenção se iniciou: os altos valores de NDVI, representando uma "floresta", de repente caem para valores mais baixos, quando há o corte e a queima. Em seguida, observamos um lento aumento no NDVI, conforme a vegetação nativa se regenera.
 
-(2) Como não temos dados sobre a área que está sendo restaurada antes de ela ser degradada, o que poderia ser usado como o "estado de referência" para a restauração, utilizamos dados de uma área próxima com vegetação nativa. Não importa muito saber como essa área era no passado, portanto olhamos para a série temporal apenas entre 2016 e 2022.
+(2) Como não temos dados sobre a área que está sendo restaurada antes de ela ser degradada, o que poderia ser usado como o "estado de referência" para a restauração, utilizamos dados de uma área próxima com vegetação nativa. Não importa muito saber como essa área era no passado, portanto olhamos para a série temporal apenas entre 2010 e 2022.
 
 (3) Por último, para saber como é o NDVI de uma área ainda degradada, completamente coberta por uma espécie de árvore exótica, olhamos para a série temporal dessa área, também no período mais recente. Repare que, na média, o NDVI dessa área é bem mais alto (0.35) do que o NDVI da área nativa (0.25). Isso se dá pois, geralmente, áreas florestais apresentam um NDVI mais alto do que áreas de campo e savana.
 
@@ -186,7 +186,7 @@ O objetivo desse exercício é avaliar como outras áreas que estão sendo resta
 
 As tarefas que devem ser realizadas são as seguintes:
 
-(1) Processe a imagem "ndvi_mean_2022", retirando áreas com corpos d'água e estradas, recortando e excluindo áreas fora da reserva. Não é necessário mudar a escala dos dados de NDVI, eles já estão na escala correta.
+(1) Processe a imagem "ndvi_mean_2022", (a) retirando áreas com corpos d'água e estradas, (b) recortando a imagem para a área da reserva, e (c) mascarando áreas fora da reserva. Não é necessário mudar a escala dos dados de NDVI, eles já estão na escala correta. Também não é necessário mascarar nuvens, já que estas imagens não apresentaram nenhuma.
 
 (2) Extraia os dados de NDVI para as parcelas que ainda não foram analisadas: restauração com 7 anos e regenreação natural.
 
