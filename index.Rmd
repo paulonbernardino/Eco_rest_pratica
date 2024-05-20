@@ -68,11 +68,13 @@ plot(ndvi)
 plot(mask)
 ```
 
-A máscara fornecida pelo próprio produto do Landsat separa a imagem em algumas classes: corpos d'água, estradas, vegetação e nuvens. Para esse exercício, estamos interessados em analisar a vegetação, portanto, todas as outras classes devem ser removidas da nossa imagem. Repare que as cores estão diferentes nos mapas da máscara, porém os valores relacionadas a cada classe são os mesmos.
+A máscara fornecida pelo próprio produto do Landsat separa a imagem em algumas classes: corpos d'água, estradas, vegetação e nuvens. Para esse exercício, estamos interessados em analisar a vegetação, portanto, todas as outras classes devem ser removidas da nossa imagem. Porém, no exemplo a seguir, removeremos apenas as nuvens. No exercício no final dessa prática, vocês deverão remover os corpos d'água e as estradas. 
+
+Repare que as cores estão diferentes nos mapas da máscara (acima e abaixo), porém os valores relacionadas a cada classe são os mesmos.
 
 ![](figs/Figure_mask.png)
 
-Neste exemplo, usaremos a máscara para remover apenas as nuvens. Para aplicar a máscara, use o código abaixo:
+Para aplicar a máscara que removerá as nuvens da imagem, use o código abaixo:
 
 ```{r, echo=TRUE, message=FALSE}
 ## Transform the desired values in NAs, then use the mask function
