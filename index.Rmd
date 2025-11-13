@@ -78,8 +78,9 @@ Para aplicar a máscara que removerá as nuvens da imagem, use o código abaixo:
 
 ```{r, echo=TRUE, message=FALSE}
 ## Transform the desired values in NAs, then use the mask function
-mask[mask==4] <- NA # "clouds" class
-ndvi <- mask(ndvi, mask)
+mask_1 <- mask
+mask_1[mask_1==4] <- NA # "clouds" class
+ndvi <- mask(ndvi, mask_1)
 plot(ndvi)
 ```
 
