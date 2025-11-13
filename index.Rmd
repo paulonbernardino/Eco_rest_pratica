@@ -22,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 
 Paulo N Bernardino ([paulo.nbernardino\@gmail.com](mailto:paulo.nbernardino@gmail.com){.email})
 
-[Division Forest, Nature and Landscape, KU Leuven](https://ees.kuleuven.be/fnl/staff/index.html?intranet=u0115271)
+[Cary Institute of Ecosystem Studies](https://www.caryinstitute.org/science/our-scientists/dr-paulo-bernardino)
 
-[Laboratório de Ecologia Funcional das Plantas, UNICAMP](https://www.ib.unicamp.br/lab_ecologia_vegetal/front_page)
+[Centro de Ecologia Integrativa, UNICAMP](https://homologacaosite.com.br/cei-v3/#)
 
 ## Parte 1: Processando imagens de Landsat
 
@@ -43,7 +43,7 @@ pkgTest <- function(x)
   }
   library(x, character.only = TRUE)
 }
-neededPackages <- c("raster", "rgdal", "gimms")
+neededPackages <- c("raster", "sf", "gimms")
 for (package in neededPackages){pkgTest(package)}
 ```
 
@@ -87,7 +87,7 @@ Em seguida, vamos restringir a imagem apenas para a nossa área de interesse, re
 
 ```{r, echo=TRUE, message=FALSE}
 ## Load the reserve borders
-reserve <- readOGR("data/ASB_limites_expandido.shp")
+reserve <- st_read("data/ASB_limites_expandido.shp")
 
 ## Crop to the study area extent
 ndvi <- crop(ndvi, reserve)
@@ -106,7 +106,7 @@ Este é um exemplo de como processar as imagens de Landsat. O mesmo processo dev
 
 ## Parte 2: Analisando a trajetória da restauração
 
-Nesta segunda parte, vamos analisar como uma parcela que sofreu uma intervenção de restauração está evoluindo. A intervenção consistiu em remover as árvores da área degradada (que consistia de uma monocultura de uma espécies invasora), efetuar queimada controlada, e então transplantar blocos de vegetação provenientes de uma área de vegetação nativa nas proximidades. Esta intervenção foi realizada 4 anos atrás.
+Nesta segunda parte, vamos analisar como uma parcela que sofreu uma intervenção de restauração está evoluindo. A intervenção consistiu em remover as árvores da área degradada (que era formada por uma monocultura de uma espécies invasora), efetuar queima controlada, e então transplantar blocos de vegetação provenientes de uma área de vegetação nativa nas proximidades. Esta intervenção foi realizada 4 anos atrás.
 
 Para avaliar a evolução da área sendo restaurada, usaremos o NDVI da mesma, que será comparado com o NDVI de uma área de vegetação nativa (ecossistema de referência) e de uma área ainda degradada. Usaremos as imagens de Landsat já processadas salvas no arquivo "NDVI_ASB_2000-2022.tif".
 
@@ -116,7 +116,7 @@ Na imagem abaixo, a área sendo restaurada está representada em rosa, a área d
 ```{r, echo=TRUE, message=FALSE}
 ## Load the pre-processed NDVI data and the plots to be analyzed
 ndvi_prepro <- brick("data/NDVI_ASB_2000-2022.tif")
-sites <- readOGR("data/sitios.shp")
+sites <- st_read("data/sitios.shp")
 
 ## Rescale NDVI values
 ndvi_prepro <- ndvi_prepro/10000
